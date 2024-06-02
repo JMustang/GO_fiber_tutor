@@ -23,6 +23,7 @@ func main() {
 		return c.Status(200).JSON(fiber.Map{"data": "Hello, World!"})
 	})
 
+	// CCREATE TODOS
 	app.Post("/api/todos", func(c *fiber.Ctx) error {
 		todo := &Todo{}
 
@@ -38,6 +39,20 @@ func main() {
 		todos = append(todos, *todo)
 
 		return c.Status(201).JSON(fiber.Map{"data": todo})
+	})
+
+	// UPDATE TODOS
+	app.Patch("/api/todos/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+
+		for i, todo := range todos {
+			if fmt.Sprint(todo.ID) == id {
+				todos[i].Completed = true
+				return c.Status(200).JSON(fiber.Map{"data": todos[i]})
+			}
+		}
+
+		return c.Status(404).JSON(fiber.Map{"error": "Todo not found"})
 	})
 
 	log.Fatal(app.Listen(":4000"))
