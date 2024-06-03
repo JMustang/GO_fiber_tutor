@@ -23,7 +23,7 @@ func main() {
 		return c.Status(200).JSON(fiber.Map{"data": "Hello, World!"})
 	})
 
-	// CCREATE TODOS
+	// CREATE TODOS
 	app.Post("/api/todos", func(c *fiber.Ctx) error {
 		todo := &Todo{}
 
@@ -48,7 +48,7 @@ func main() {
 		for i, todo := range todos {
 			if fmt.Sprint(todo.ID) == id {
 				todos[i].Completed = true
-				return c.Status(200).JSON(fiber.Map{"data": todos[i]})
+				return c.Status(200).JSON(todos[i])
 			}
 		}
 
